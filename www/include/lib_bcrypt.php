@@ -8,10 +8,14 @@
 #
 # There's absolutely no warranty.
 #
+
+# PHP Deprecated:  Methods with the same name as their class will not be constructors in a future version of PHP; BCryptHasher has a deprecated constructor in /home/ubuntu/flamework/www/include/lib_bcrypt.php on line 11
+
 class BCryptHasher {
 	private $random_state;
 
-	function BCryptHasher()
+	//function BCryptHasher()
+	function __construct()
 	{
 		if (CRYPT_BLOWFISH != 1) die("lib_bcyrpt requires CRYPT_BLOWFISH PHP support!");
 
