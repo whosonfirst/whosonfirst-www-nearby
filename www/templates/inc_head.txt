@@ -23,8 +23,10 @@
       <script src="{$cfg.abs_root_url}javascript/html5.js"></script>
     <![endif]-->
 
+    {include file="inc_head_mapzen.txt"}
+    
   </head>
 
-  <body data-abs-root-url="{$cfg.abs_root_url}" {if "api"|@features_is_enabled}data-api-endpoint="{$cfg.api_abs_root_url}{$cfg.api_endpoint}"{if "api_site_tokens"|@features_is_enabled} data-api-site-token="{$site_token|@escape}"{/if}{/if}>
+  <body data-abs-root-url="{$cfg.abs_root_url}" {if "api"|@features_is_enabled}data-api-endpoint="{$cfg.api_abs_root_url}{$cfg.api_endpoint}"{if "api_site_tokens"|@features_is_enabled} data-api-access-token="{$site_token|@escape}"{/if}{/if}>
 
   {include file="inc_head_navi.txt"}

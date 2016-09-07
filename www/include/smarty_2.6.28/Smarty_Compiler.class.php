@@ -79,6 +79,7 @@ class Smarty_Compiler extends Smarty {
      * The class constructor.
      */
     function Smarty_Compiler()
+    // function __constructor()    	   
     {
         // matches double quoted strings:
         // "foobar"
