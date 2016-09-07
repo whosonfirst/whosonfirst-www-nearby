@@ -42,3 +42,20 @@ setup:
 	sudo ubuntu/setup-certified-certs.sh
 	bin/configure_secrets.sh .
 	ubuntu/setup-db.sh $(DBNAME) $(DBUSER)
+
+mapzen: tangram styleguide mapzen-js
+
+tangram:
+	curl -s -o www/javascript/tangram.js https://mapzen.com/tangram/tangram.debug.js
+	curl -s -o www/javascript/tangram.min.js https://mapzen.com/tangram/tangram.min.js
+
+mapzen-js:
+	curl -s -o www/javascript/mapzen.js https://mapzen.com/js/mapzen.js
+	curl -s -o www/javascript/mapzen.min.js https://mapzen.com/js/mapzen.min.js
+	curl -s -o www/css/mapzen.css https://mapzen.com/js/mapzen.css
+
+styleguide:
+	curl -s -o www/css/mapzen.styleguide.css https://mapzen.com/common/styleguide/styles/styleguide.css
+
+crosshairs:
+	curl -s -o www/javascript/slippymap.crosshairs.js https://raw.githubusercontent.com/whosonfirst/js-slippymap-crosshairs/master/src/slippymap.crosshairs.js
