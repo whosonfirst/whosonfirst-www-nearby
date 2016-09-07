@@ -170,11 +170,11 @@
 
 	# Feature flags
 
-	$GLOBALS['cfg']['enable_feature_signup'] = 1;
+	$GLOBALS['cfg']['enable_feature_signup'] = 0;
 	$GLOBALS['cfg']['enable_feature_signin'] = 1;
 	$GLOBALS['cfg']['enable_feature_persistent_login'] = 1;
-	$GLOBALS['cfg']['enable_feature_account_delete'] = 1;
-	$GLOBALS['cfg']['enable_feature_password_retrieval'] = 1;
+	$GLOBALS['cfg']['enable_feature_account_delete'] = 0;
+	$GLOBALS['cfg']['enable_feature_password_retrieval'] = 0;
 
 	# Enable this flag to show a full call chain (instead of just the
 	# immediate caller) in database query log messages and embedded in
@@ -204,3 +204,14 @@
 	# $GLOBALS['cfg']['db_poormans_slaves_pass'] = 'READ-FROM-SECRETS';
 
 	# the end
+
+	# START OF flamework-mapzen-sso stuff
+
+	$GLOBALS['cfg']['mapzen_oauth_key'] = 'READ-FROM-SECRETS';
+	$GLOBALS['cfg']['mapzen_oauth_secret'] = 'READ-FROM-SECRETS';
+	$GLOBALS['cfg']['mapzen_oauth_callback'] = 'auth/';
+	$GLOBALS['cfg']['crypto_oauth_cookie_secret'] = 'READ-FROM-SECRETS';	# (see notes in www/sign_oauth.php)
+	$GLOBALS['cfg']['mapzen_api_perms'] = 'read';
+	$GLOBALS['cfg']['enable_feature_mapzen_require_admin'] = 1;
+
+	# END OF flamework-mapzen-sso stuff
