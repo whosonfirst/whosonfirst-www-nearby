@@ -1,1 +1,0 @@
-<link href="{$cfg.abs_root_url}css/mapzen.styleguide.css" rel="stylesheet">
