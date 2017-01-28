@@ -4,6 +4,8 @@ mapzen.whosonfirst = mapzen.whosonfirst || {};
 mapzen.whosonfirst.nearby = (function(){
 
 	var drawn = {};
+
+	var layer;
 	
 	var self = {
 			
@@ -26,12 +28,13 @@ mapzen.whosonfirst.nearby = (function(){
 				"latitude": pt.lat,
 				"longitude": pt.lng,
 				"placetype": "venue",
-				"extras": "geom:latitude,geom:longitude",
+				"extras": "geom:latitude,geom:longitude,wof:tags,addr:housenumber,addr:street,addr:phone",
 			};
 
 			var on_success = function(rsp){
 
 				try {
+					self.list(rsp);					
 					self.draw(rsp);
 				}
 
@@ -43,6 +46,128 @@ mapzen.whosonfirst.nearby = (function(){
 			mapzen.whosonfirst.api.call(method, args, on_success);
 		},
 
+		'list': function(rsp) {
+
+			var ul = document.createElement("ul");
+			
+			var results = rsp.results;
+			var count = results.length;
+
+			var by_tag = {};
+			
+			for (var i=0; i < count; i++){
+
+				var props = results[i];
+				var wofid = props["wof:id"];
+				var name = props["wof:name"];
+				var tags = props["wof:tags"];								
+
+				var count_tags = tags.length;
+
+				if (count_tags == 0){
+					tags = [ "misc" ];
+				}
+				
+				for (var j=0; j < count_tags; j++){
+
+					var tag = tags[j];
+					
+					if (! by_tag[tag]){
+						by_tag[tag] = [];
+					}
+
+					by_tag[tag].push(props);
+				}		
+			}
+
+			var tags = [];
+			
+			for (tag in by_tag){
+				tags.push(tag);
+			}
+			
+			tags = tags.sort();
+			var count_tags = tags.length;
+
+			for (var t = 0; t < count_tags; t++){
+
+				var tag = tags[t];
+
+				var places = by_tag[tag];
+				var places_count = places.length;
+
+				console.log(tag + " count " + places_count);
+				
+				var tag_list = document.createElement("ul");
+				
+				for (var p = 0; p < places_count; p++){
+
+					var props = places[p];
+					
+					var wofid = props["wof:id"];					
+					var name = props["wof:name"];
+					var house = props["addr:housenumber"];
+					var street = props["addr:street"];
+					var phone = props["addr:phone"];					
+
+					var addr = [];
+
+					if ((house) && (street)){
+						addr.push(house);
+					}
+
+					if (street){
+						addr.push(street);
+					}
+					
+					var a = document.createElement("a");
+					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/ " + wofid);
+					a.appendChild(document.createTextNode(name));
+
+					var small = document.createElement("small");
+					small.appendChild(document.createTextNode(addr));
+					
+					var li = document.createElement("li");
+					li.appendChild(a);
+
+					if ((addr.length > 0) || (phone != "")){
+
+						var meta = document.createElement("ul");
+
+						if (addr.length > 0){
+							var item = document.createElement("li");
+							item.appendChild(document.createTextNode(addr.join(" ")));
+							meta.appendChild(item);
+						}
+
+						if (phone){
+							var item = document.createElement("li");
+							item.appendChild(document.createTextNode(phone));
+							meta.appendChild(item);
+						}
+					}
+					
+					li.appendChild(meta);					
+				
+					tag_list.appendChild(li);
+				}
+				
+				var l = document.createElement("li");
+				l.appendChild(document.createTextNode(tag));
+				l.appendChild(tag_list);
+
+				ul.appendChild(l);
+			}
+			
+			var list = document.getElementById("nearby-list");
+
+			while (list.hasChildNodes()) {
+				list.removeChild(list.lastChild);
+			}
+			
+			list.appendChild(ul);
+		},
+		
 		'draw': function(rsp) {
 
 			var features = [];
@@ -92,12 +217,16 @@ mapzen.whosonfirst.nearby = (function(){
 			var style = mapzen.whosonfirst.leaflet.styles.geom_centroid();
 			var handler = mapzen.whosonfirst.leaflet.handlers.point(style);
 
+			if (layer){
+				layer.remove(map);
+			}
+			
 			var args = {
 				'style': style,
 				'pointToLayer': handler,
 			};
 			
-			var layer = L.geoJson(collection, args);
+			layer = L.geoJson(collection, args);
 			layer.addTo(map);
 		}
 		
