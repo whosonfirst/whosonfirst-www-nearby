@@ -45,26 +45,24 @@
 </head>
 <body>
 
-  <div id="map-wrapper" class="sect">
+  <div id="map-wrapper" class="sect" style="width:50%; float:right;">
     
     <div id="map">
       <div id="crosshairs" style="background-color:#fff;"></div>
     </div>
     <div id="coords" style="background-color:#fff;"></div>
-    
-  </div>
-  
+
   <div id="ip-lookups"  class="sect">
     <div id="ip-lookups-enabled">You have automatic map positioning (using IP lookups) enabled. <button class="ip-lookups-button" id="ip-lookups-off">Disable?</button></div>
     <div id="ip-lookups-disabled">You have automatic map positioning (using IP lookups) disabled. <button class="ip-lookups-button" id="ip-lookups-on">Enable?</button></div>      
   </div>
-  
+    
+  </div>
+    
   <div id="nearby-feedback"  class="sect"></div>
 
-  <div id="wof-log-container"  class="sect">
-    <div id="wof-log"></div>
-  </div>
-
+  <div id="nearby-list"  class="sect" style="border: solid thin; max-height:500px; overflow: scroll;"></div>
+  
   <script type="text/javascript">
 
     window.onload = function(e){
