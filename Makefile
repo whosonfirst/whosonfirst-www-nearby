@@ -1,4 +1,4 @@
-nearby: whosonfirstjs mapzenjs crosshairs
+nearby: whosonfirstjs mapzenjs crosshairs leaflet
 
 whosonfirstjs:
 	curl -s -o www/javascript/mapzen.whosonfirst.api.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst/master/src/mapzen.whosonfirst.api.js
@@ -14,6 +14,10 @@ whosonfirstjs:
 mapzenjs:
 	curl -s -o www/javascript/mapzen.min.js https://mapzen.com/js/mapzen.min.js
 	curl -s -o www/css/mapzen.js.css	https://mapzen.com/js/mapzen.css
+
+leaflet:
+	curl -s -o www/javascript/leaflet.label.js https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/dist/leaflet.label.js
+	curl -s -o www/css/leaflet.label.css https://raw.githubusercontent.com/Leaflet/Leaflet.label/master/dist/leaflet.label.css
 
 refill:
 	curl -s -o www/tangram/refill.yaml https://raw.githubusercontent.com/tangrams/refill-style/gh-pages/refill-style.yaml
