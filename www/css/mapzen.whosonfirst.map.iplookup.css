@@ -1,0 +1,80 @@
+#iplookup-modal {
+    z-index: 2000 !important;	/* because the leaflet attribution widget is z-index 1000.... */
+    border:8px solid #333;
+    background-color: #fff;
+    min-width: 70%;
+    max-width: 70%;
+    max-height:450px;    
+    max-height:450px;    
+    padding: 1.5em;
+    position: fixed;
+    top: 25%;
+    left:15%;
+}
+
+#iplookup-modal-text {
+    position: relative;
+    min-height: 300px;
+    max-height:300px;
+    overflow: scroll !important;
+    padding-bottom:1em !important;
+    font-size:.98em;
+}
+
+#iplookup-modal-controls {
+    width: 95%;
+    position:absolute;
+    bottom: 1em;
+    padding-top:1.25em;
+    margin-top:1em;
+    border-top:solid thin;
+}
+
+#iplookup-modal-close-button {
+    border: solid thin;
+    padding: .5em;
+    float:right;
+}
+
+#iplookup-modal-close-button:hover {
+    background-color:#999;
+    color: #fff;
+}
+
+#iplookup-modal-skip {
+    margin-right: 1em;
+}
+
+#iplookup-modal-disable {
+    margin-right: 1em;
+}
+
+.iplookup-xmodal-blog {
+    width:100%;
+    text-align: center !important;
+}
+
+#ip-lookups {
+    font-size:small;
+    padding:1em;
+    text-align:center;
+}
+
+.ip-lookups-button {
+    border: none;
+    font-style:italic;    
+    background-color: transparent !important;
+}
+
+.ip-lookups-button:hover {
+    background-color:#999 !important;
+    color:#fff
+}
+
+#ip-lookups-enabled {
+    display:none;
+}
+
+#ip-lookups-disabled {
+    display:none;
+}
