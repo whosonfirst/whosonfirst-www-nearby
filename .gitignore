@@ -1,8 +1,2 @@
 *~
-.vagrant
-www/include/config_dev.php
-www/include/secrets_dev.php
-www/include/secrets*.php
-tests/coverage.state
-coverage/
-certified
+www/javascript/mapzen.whosonfirst.config.js

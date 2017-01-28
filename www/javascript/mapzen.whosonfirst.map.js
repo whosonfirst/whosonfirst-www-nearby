@@ -27,7 +27,7 @@ mapzen.whosonfirst.map = (function(){
 				}
 			};
 
-			var map = L.Mapzen.map('map', opts);
+			map = L.Mapzen.map('map', opts);
 			map.setView([lat, lon], zoom);
 
 			var geocoder = L.Mapzen.geocoder('mapzen-xxxxxxx');
@@ -56,12 +56,16 @@ mapzen.whosonfirst.map = (function(){
 			});
 
 			if ((mapzen.whosonfirst.iplookup) && (mapzen.whosonfirst.iplookup.enabled())){
+				// mapzen.whosonfirst.map.iplookup.init(map);
+				// mapzen.whosonfirst.map.iplookup.lookup();
+			}
 
-				mapzen.whosonfirst.map.iplookup.init(map);
-				mapzen.whosonfirst.map.iplookup.lookup();
-			}		
+			return map;
 		},
 
+		'map_object': function() {
+			return map;
+		}
 	};		
 
 	return self;
