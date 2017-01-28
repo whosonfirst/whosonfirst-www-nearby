@@ -30,9 +30,11 @@ mapzen.whosonfirst.map = (function(){
 			map = L.Mapzen.map('map', opts);
 			map.setView([lat, lon], zoom);
 
-			var geocoder = L.Mapzen.geocoder('mapzen-xxxxxxx');
-			geocoder.addTo(map);
-
+			if (0){
+				var geocoder = L.Mapzen.geocoder('mapzen-xxxxxxx');
+				geocoder.addTo(map);
+			}
+			
 			var locator = L.Mapzen.locator();
 			locator.setPosition('bottomright');
 			locator.addTo(map);

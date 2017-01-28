@@ -28,27 +28,60 @@ mapzen.whosonfirst.nearby = (function(){
 				"latitude": pt.lat,
 				"longitude": pt.lng,
 				"placetype": "venue",
-				"extras": "geom:latitude,geom:longitude,wof:tags,addr:housenumber,addr:street,addr:phone",
+				"extras": "geom:latitude,geom:longitude,wof:tags,addr:housenumber,addr:street,addr:phone,mz:is_current",
 			};
 
-			var on_success = function(rsp){
-
-				try {
-					self.list(rsp);					
-					self.draw(rsp);
-				}
-
-				catch (e) {
-					console.log(e);
-				}
-			};
+			var results = [];
 			
-			mapzen.whosonfirst.api.call(method, args, on_success);
+			var iters = 0;
+			var max_iters = 10;
+
+			var query = function(){
+				
+				var on_error = function(rsp){
+					console.log(rs);
+				};
+			
+				var on_success = function(rsp){
+					
+					if ((rsp["meta"]) && (rsp["meta"]["status_code"] == 429)){
+						on_error(rsp);
+						return;
+					}
+					
+					var count_results = rsp['results'].length;
+				
+					for (var i = 0; i < count_results; i++){
+						results.push(rsp['results'][i]);
+					}
+				
+					if (rsp['cursor'] != 0){
+					
+						args['cursor'] = rsp['cursor'];
+
+						if (iters <= max_iters){
+							query();
+							return;
+						}
+					}
+
+					rsp['results'] = results;
+					self.list(rsp);
+					self.draw(rsp);
+					
+				};
+				
+				mapzen.whosonfirst.api.call(method, args, on_success, on_error);
+				iters += 1;
+			};
+
+			query();
 		},
 
 		'list': function(rsp) {
 
 			var ul = document.createElement("ul");
+			ul.setAttribute("class", "nearby-list-tags");
 			
 			var results = rsp.results;
 			var count = results.length;
@@ -58,9 +91,7 @@ mapzen.whosonfirst.nearby = (function(){
 			for (var i=0; i < count; i++){
 
 				var props = results[i];
-				var wofid = props["wof:id"];
-				var name = props["wof:name"];
-				var tags = props["wof:tags"];								
+				var tags = props["wof:tags"];
 
 				var count_tags = tags.length;
 
@@ -96,9 +127,8 @@ mapzen.whosonfirst.nearby = (function(){
 				var places = by_tag[tag];
 				var places_count = places.length;
 
-				console.log(tag + " count " + places_count);
-				
 				var tag_list = document.createElement("ul");
+				tag_list.setAttribute("class", "nearby-list-venues");
 				
 				for (var p = 0; p < places_count; p++){
 
@@ -108,7 +138,8 @@ mapzen.whosonfirst.nearby = (function(){
 					var name = props["wof:name"];
 					var house = props["addr:housenumber"];
 					var street = props["addr:street"];
-					var phone = props["addr:phone"];					
+					var phone = props["addr:phone"];
+					var current = props["mz:is_current"];					
 
 					var addr = [];
 
@@ -119,21 +150,28 @@ mapzen.whosonfirst.nearby = (function(){
 					if (street){
 						addr.push(street);
 					}
+
+					var div = document.createElement("div");
+
+					if (current.toString() == "1"){
+						div.setAttribute("class", "nearby-venue nearby-venue-current");
+					} else {
+						div.setAttribute("class", "nearby-venue");
+					}
+					
+					div.setAttribute("class", "nearby-venue");
 					
 					var a = document.createElement("a");
 					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/ " + wofid);
 					a.appendChild(document.createTextNode(name));
-
-					var small = document.createElement("small");
-					small.appendChild(document.createTextNode(addr));
-					
-					var li = document.createElement("li");
-					li.appendChild(a);
+				
+					div.appendChild(a);
 
 					if ((addr.length > 0) || (phone != "")){
 
 						var meta = document.createElement("ul");
-
+						meta.setAttribute("class", "nearby-meta");
+						
 						if (addr.length > 0){
 							var item = document.createElement("li");
 							item.appendChild(document.createTextNode(addr.join(" ")));
@@ -145,15 +183,22 @@ mapzen.whosonfirst.nearby = (function(){
 							item.appendChild(document.createTextNode(phone));
 							meta.appendChild(item);
 						}
-					}
+
+						div.appendChild(meta);						
+					}				
+
+					var li = document.createElement("li");
+					li.appendChild(div);
 					
-					li.appendChild(meta);					
-				
 					tag_list.appendChild(li);
 				}
+
+				var span = document.createElement("span");
+				span.setAttribute("class", "nearby-tag");
+				span.appendChild(document.createTextNode(tag));
 				
 				var l = document.createElement("li");
-				l.appendChild(document.createTextNode(tag));
+				l.appendChild(span);
 				l.appendChild(tag_list);
 
 				ul.appendChild(l);

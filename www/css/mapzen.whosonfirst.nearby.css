@@ -2,3 +2,58 @@ body {
     margin: 0px;
     font-family: sans-serif;
 }
+
+#map-wrapper {
+    width:50%;
+    float:right;
+}
+
+#nearby-list {
+    padding: 2.5em;
+    padding-top: 1em;
+    border: solid thin;
+    height:700px !important;
+    max-height:700px !important;
+    overflow: scroll;    
+}
+
+.nearby-list-tags {
+    margin-bottom: 1em;
+    list-style-type: none;
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+.nearby-list-venues {
+    margin-bottom: 1em;
+    list-style-type: none;
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+.nearby-list-venues li {
+    padding-top:.5em;
+}
+
+.nearby-tag {
+    font-weight: 700;
+}
+
+.nearby-venue {
+}
+
+.nearby-venue-current {
+    background-color:grey;
+}
+
+.nearby-meta  {
+    padding-left: .5em;
+    margin-left: 0px;
+    font-size:small;
+    display: inline !important;
+    color: #666;
+}
+
+.nearby-meta li {
+    display: inline !important;
+}
