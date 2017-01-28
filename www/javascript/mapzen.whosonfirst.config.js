@@ -7,6 +7,7 @@ mapzen.whosonfirst.config = (function(){
 			
 		'init': function(){
 			mapzen.whosonfirst.api.set_endpoint("https://whosonfirst-api.dev.mapzen.com/");
+			mapzen.whosonfirst.api.set_key("mapzen-SLjAoy3");
 		},
 	};		
 
