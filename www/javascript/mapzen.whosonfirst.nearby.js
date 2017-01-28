@@ -56,7 +56,10 @@ mapzen.whosonfirst.nearby = (function(){
 					}
 				
 					if (rsp['cursor'] != 0){
-					
+
+						// var list = document.getElementById("nearby-list");
+						// list.innerHTML = "fetching more results (" + results.length + " so far)...";
+
 						args['cursor'] = rsp['cursor'];
 
 						if (iters <= max_iters){
@@ -76,6 +79,14 @@ mapzen.whosonfirst.nearby = (function(){
 			};
 
 			query();
+
+			if (layer){
+				layer.remove(map);
+			}
+
+			var list = document.getElementById("nearby-list");
+			list.innerHTML = "fetching results...";
+			
 		},
 
 		'list': function(rsp) {
