@@ -67,6 +67,11 @@ mapzen.whosonfirst.nearby = (function(){
 					"coordinates": [ lon, lat ],
 				};
 
+				// this (or rather the leaflet.label that it triggers)
+				// causes mapzen.js to issue a "callback is undefined"
+				// error (20170217/thisisaaronland)				
+				// props["lflt:label_text"] = props["wof:name"];
+				
 				var feature = {
 					"type": "Feature",
 					"geometry": geom,
