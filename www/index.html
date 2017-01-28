@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 
     <link rel="stylesheet" type="text/css" href="./css/mapzen.js.css" />
+    <link rel="stylesheet" type="text/css" href="./css/mapzen.whosonfirst.log.css" />    
     <link rel="stylesheet" type="text/css" href="./css/mapzen.whosonfirst.map.css" />
     <link rel="stylesheet" type="text/css" href="./css/mapzen.whosonfirst.map.iplookup.css" />
     <link rel="stylesheet" type="text/css" href="./css/mapzen.whosonfirst.nearby.css" />
@@ -23,7 +24,9 @@
     <script type="text/javascript" src="./javascript/mapzen.whosonfirst.api.js"></script>    
     <script type="text/javascript" src="./javascript/mapzen.whosonfirst.cookies.js"></script>    
     <script type="text/javascript" src="./javascript/mapzen.whosonfirst.geojson.js"></script>
-    <script type="text/javascript" src="./javascript/mapzen.whosonfirst.iplookup.js"></script>    
+    <script type="text/javascript" src="./javascript/mapzen.whosonfirst.iplookup.js"></script>
+    <script type="text/javascript" src="./javascript/mapzen.whosonfirst.leaflet.handlers.js"></script>
+    <script type="text/javascript" src="./javascript/mapzen.whosonfirst.leaflet.styles.js"></script>
     <script type="text/javascript" src="./javascript/mapzen.whosonfirst.log.js"></script>
     <script type="text/javascript" src="./javascript/mapzen.whosonfirst.net.js"></script>
     <script type="text/javascript" src="./javascript/mapzen.whosonfirst.map.js"></script>
@@ -38,33 +41,30 @@
 </head>
 <body>
 
-  <div>
+  <div id="map-wrapper" class="sect">
     
     <div id="map">
       <div id="crosshairs" style="background-color:#fff;"></div>
     </div>
     <div id="coords" style="background-color:#fff;"></div>
-
-    <div id="ip-lookups">
-      <div id="ip-lookups-enabled">You have automatic map positioning (using IP lookups) enabled. <button class="ip-lookups-button" id="ip-lookups-off">Disable?</button></div>
-      <div id="ip-lookups-disabled">You have automatic map positioning (using IP lookups) disabled. <button class="ip-lookups-button" id="ip-lookups-on">Enable?</button></div>      
-    </div>
     
   </div>
+  
+  <div id="ip-lookups"  class="sect">
+    <div id="ip-lookups-enabled">You have automatic map positioning (using IP lookups) enabled. <button class="ip-lookups-button" id="ip-lookups-off">Disable?</button></div>
+    <div id="ip-lookups-disabled">You have automatic map positioning (using IP lookups) disabled. <button class="ip-lookups-button" id="ip-lookups-on">Enable?</button></div>      
+  </div>
+  
+  <div id="nearby-feedback"  class="sect"></div>
 
-  <div id="nearby-feedback"></div>
-
-  <!--
-  <div id="wof-log-container">
+  <div id="wof-log-container"  class="sect">
     <div id="wof-log"></div>
   </div>
-  -->
 
   <script type="text/javascript">
 
     window.onload = function(e){
     	mapzen.whosonfirst.config.init();
-    	mapzen.whosonfirst.map.init();    
     	mapzen.whosonfirst.nearby.init();
     }
 
