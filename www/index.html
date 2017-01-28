@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" 🌐>
 <head>
-    <title>I am here</title>
+    <title>Nearby</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="referrer" content="origin">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
@@ -10,20 +10,27 @@
     <meta name="HandheldFriendly" content="true" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 
-    <link rel="stylesheet" type="text/css" href="./css/mapzen.js.css" />    
+    <link rel="stylesheet" type="text/css" href="./css/mapzen.js.css" />
+    <link rel="stylesheet" type="text/css" href="./css/mapzen.whosonfirst.map.css" />    
     <link rel="stylesheet" type="text/css" href="./css/mapzen.whosonfirst.nearby.css" />
     <link rel="stylesheet" type="text/css" href="./css/mapzen.whosonfirst.nearby.mobile.css" />
 
-    <script type="text/javascript" src="./javascript/mapzen.min.js"></script>    
+    <script type="text/javascript" src="./javascript/mapzen.min.js"></script>
+    <script type="text/javascript" src="./javascript/mapzen.whosonfirst.map.js"></script>    
     <script type="text/javascript" src="./javascript/mapzen.whosonfirst.nearby.js"></script>
     <script type="text/javascript" src="./javascript/mapzen.whosonfirst.config.js"></script>
-
+    <script type="text/javascript" src="./javascript/slippymap.crosshairs.js"></script>
+    
 </head>
 <body>
 
   <div>
+
     
-    <div id="map"><div id="crosshairs" style="background-color:#fff;"></div></div>
+    <div id="map">
+      <div id="crosshairs" style="background-color:#fff;"></div>
+    </div>
+    <div id="coords" style="background-color:#fff;"></div>
     
     <div id="ip-lookups">
       <div id="ip-lookups-enabled">You have automatic map positioning (using IP lookups) enabled. <button class="ip-lookups-button" id="ip-lookups-off">Disable?</button></div>
@@ -41,7 +48,8 @@
   <script type="text/javascript">
 
     window.onload = function(e){
-        mapzen.whosonfirst.config.init();
+    	mapzen.whosonfirst.config.init();
+    	mapzen.whosonfirst.map.init();    
     	mapzen.whosonfirst.nearby.init();
     }
 
