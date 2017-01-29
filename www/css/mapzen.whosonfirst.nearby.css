@@ -14,7 +14,7 @@ body {
     border: solid thin;
     height:700px !important;
     max-height:700px !important;
-    overflow: scroll;    
+    overflow: scroll;
 }
 
 .nearby-list-tags {
@@ -29,6 +29,8 @@ body {
     list-style-type: none;
     padding-left: 0px;
     margin-left: 0px;
+    display: none;
+    
 }
 
 .nearby-list-venues li {
@@ -37,6 +39,16 @@ body {
 
 .nearby-tag {
     font-weight: 700;
+}
+
+.nearby-tag-count {
+    font-weight: 200;
+    font-size: small;
+    color: #666;
+}
+
+.nearby-tag-count:before {
+    content: " – ";
 }
 
 .nearby-venue {
@@ -62,6 +74,7 @@ body {
     padding-left: 0em;
     margin-left: 0px;
     margin-top: 1em;
+    margin-bottom: 2em;
     font-size:small;
     color: #666;
 }

@@ -139,6 +139,7 @@ mapzen.whosonfirst.nearby = (function(){
 				var places_count = places.length;
 
 				var tag_list = document.createElement("ul");
+				tag_list.setAttribute("id", "nearby-list-" + tag);				
 				tag_list.setAttribute("class", "nearby-list-venues");
 				
 				for (var p = 0; p < places_count; p++){
@@ -216,9 +217,9 @@ mapzen.whosonfirst.nearby = (function(){
 					button_now.setAttribute("id", "button-now-" + wofid);
 					button_now.appendChild(document.createTextNode("open right now"));
 
-					button_open.onclick = self.click;
-					button_closed.onclick = self.click;
-					button_now.onclick = self.click;
+					button_open.onclick = self.button_onclick;
+					button_closed.onclick = self.button_onclick;
+					button_now.onclick = self.button_onclick;
 							   
 					var li_open = document.createElement("li");
 					var li_closed = document.createElement("li");					
@@ -240,12 +241,28 @@ mapzen.whosonfirst.nearby = (function(){
 					tag_list.appendChild(li);
 				}
 
-				var span = document.createElement("span");
-				span.setAttribute("class", "nearby-tag");
-				span.appendChild(document.createTextNode(tag));
+				var places = by_tag[tag];
+				var places_count = places.length;
+				
+				var tag_count = document.createElement("small");
+				tag_count.setAttribute("class", "nearby-tag-count");
+
+				if (places_count == 1){
+					tag_count.appendChild(document.createTextNode("one venue"));
+				} else {
+					tag_count.appendChild(document.createTextNode(places_count + " venues"));
+				}
+				
+				var tag_name = document.createElement("h2");
+				tag_name.setAttribute("class", "nearby-tag");
+				tag_name.setAttribute("id", "nearby-tag-" + tag);				
+				tag_name.appendChild(document.createTextNode(tag));
+				tag_name.appendChild(tag_count);
+
+				tag_name.onclick = self.tag_onclick;
 				
 				var l = document.createElement("li");
-				l.appendChild(span);
+				l.appendChild(tag_name);
 				l.appendChild(tag_list);
 
 				ul.appendChild(l);
@@ -322,7 +339,21 @@ mapzen.whosonfirst.nearby = (function(){
 			layer.addTo(map);
 		},
 
-		'click': function(e){
+		'tag_onclick': function(e){
+
+			var el = e.target;
+			var id = el.getAttribute("id");
+
+			var tag = id.replace("nearby-tag-", "");
+			var list_id = "nearby-list-" + tag;
+
+			// PLEASE TOGGLE ME
+			
+			var list = document.getElementById(list_id);
+			list.style.display = "block";
+		},
+		
+		'button_onclick': function(e){
 			var b = e.target;
 			console.log(b.getAttribute("id"));
 		}
