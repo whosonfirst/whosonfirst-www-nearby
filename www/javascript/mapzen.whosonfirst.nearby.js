@@ -39,7 +39,7 @@ mapzen.whosonfirst.nearby = (function(){
 			var query = function(){
 				
 				var on_error = function(rsp){
-					console.log(rs);
+					console.log(rsp);
 				};
 			
 				var on_success = function(rsp){
@@ -198,6 +198,42 @@ mapzen.whosonfirst.nearby = (function(){
 						div.appendChild(meta);						
 					}				
 
+					var buttons = document.createElement("ul");
+					buttons.setAttribute("class", "nearby-buttons");
+
+					var button_open = document.createElement("button");
+					button_open.setAttribute("class", "button-open");					
+					button_open.setAttribute("id", "button-open-" + wofid);
+					button_open.appendChild(document.createTextNode("open"));
+
+					var button_closed = document.createElement("button");
+					button_closed.setAttribute("class", "button-closed");					
+					button_closed.setAttribute("id", "button-closed-" + wofid);
+					button_closed.appendChild(document.createTextNode("closed"));
+
+					var button_now = document.createElement("button");
+					button_now.setAttribute("class", "button-now");					
+					button_now.setAttribute("id", "button-now-" + wofid);
+					button_now.appendChild(document.createTextNode("open right now"));
+
+					button_open.onclick = self.click;
+					button_closed.onclick = self.click;
+					button_now.onclick = self.click;
+							   
+					var li_open = document.createElement("li");
+					var li_closed = document.createElement("li");					
+					var li_now = document.createElement("li");
+					
+					li_open.appendChild(button_open);					
+					li_closed.appendChild(button_closed);
+					li_now.appendChild(button_now);
+
+					buttons.appendChild(li_open);
+					buttons.appendChild(li_closed);
+					buttons.appendChild(li_now);					
+
+					div.appendChild(buttons);
+					
 					var li = document.createElement("li");
 					li.appendChild(div);
 					
@@ -284,6 +320,11 @@ mapzen.whosonfirst.nearby = (function(){
 			
 			layer = L.geoJson(collection, args);
 			layer.addTo(map);
+		},
+
+		'click': function(e){
+			var b = e.target;
+			console.log(b.getAttribute("id"));
 		}
 		
 	};		

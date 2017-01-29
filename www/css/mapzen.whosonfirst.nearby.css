@@ -57,3 +57,20 @@ body {
 .nearby-meta li {
     display: inline !important;
 }
+
+.nearby-buttons  {
+    padding-left: 0em;
+    margin-left: 0px;
+    margin-top: 1em;
+    font-size:small;
+    color: #666;
+}
+
+.nearby-buttons li {
+    display: inline !important;
+    padding-right: 1em;    
+}
+
+.nearby-buttons li:last-child {
+    padding-right: 0px;
+}
