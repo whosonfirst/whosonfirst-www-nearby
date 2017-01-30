@@ -112,9 +112,13 @@ mapzen.whosonfirst.nearby = (function(){
 				
 				for (var j=0; j < count_tags; j++){
 
-					var tag = tags[j];
+					var tag = tags[j].toString();
+
+					// because the test for the tag "watch" will evaluate to  true
+					// since by_tag has a built-in "watch" function associated with
+					// it... (20170129/thisisaaronland)
 					
-					if (! by_tag[tag]){
+					if ((! by_tag[tag]) || (typeof(by_tag[tag]) != "object")){
 						by_tag[tag] = [];
 					}
 
