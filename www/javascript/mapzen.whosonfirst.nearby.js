@@ -351,10 +351,13 @@ mapzen.whosonfirst.nearby = (function(){
 			var tag = id.replace("nearby-tag-", "");
 			var list_id = "nearby-list-" + tag;
 
-			// PLEASE TOGGLE ME
-			
 			var list = document.getElementById(list_id);
-			list.style.display = "block";
+
+			if (list.style.display == "block"){
+				list.style.display = "none";				
+			} else {
+				list.style.display = "block";
+			}				
 		},
 		
 		'button_onclick': function(e){
