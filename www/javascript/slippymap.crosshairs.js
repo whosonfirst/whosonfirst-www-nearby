@@ -64,7 +64,7 @@ slippymap.crosshairs = (function(){
 
 	    if (latlon){
 
-		ll = lat.toFixed(6) + ", " + lon.toFixed(6) + " #" + zoom;
+		    ll = lat.toFixed(6) + ", " + lon.toFixed(6) + " #" + zoom.toFixed(2);
 		title = "coordinates are displayed as latitude,longitude – click to toggle";
 	    }
 	    
