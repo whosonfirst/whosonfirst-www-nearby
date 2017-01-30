@@ -13,6 +13,7 @@ mapzen.whosonfirst.nearby = (function(){
 
 			var map = mapzen.whosonfirst.map.init();
 			map.on("dragend", self.fetch);
+			map.on("zoom", self.fetch);			
 
 			self.fetch();
 		},
@@ -293,10 +294,6 @@ mapzen.whosonfirst.nearby = (function(){
 				var props = results[i];
 				var wofid = props["wof:id"];
 
-				if (drawn[wofid]){
-					continue;
-				}
-
 				var lat = props["geom:latitude"];
 				var lon = props["geom:longitude"];				
 				
@@ -317,7 +314,6 @@ mapzen.whosonfirst.nearby = (function(){
 				};
 				
 				features.push(feature);
-				drawn[wofid] = wofid;
 			}
 
 			var collection = {
@@ -338,7 +334,7 @@ mapzen.whosonfirst.nearby = (function(){
 				'style': style,
 				'pointToLayer': handler,
 			};
-			
+
 			layer = L.geoJson(collection, args);
 			layer.addTo(map);
 		},
