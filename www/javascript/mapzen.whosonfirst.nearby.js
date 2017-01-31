@@ -43,6 +43,7 @@ mapzen.whosonfirst.nearby = (function(){
 				"longitude": pt.lng,
 				"placetype": "venue",
 				"extras": "geom:latitude,geom:longitude,wof:tags,addr:housenumber,addr:street,addr:phone,mz:is_current",
+				"per_page": 200,
 			};
 
 			var results = [];
@@ -81,8 +82,8 @@ mapzen.whosonfirst.nearby = (function(){
 				
 					if (rsp['cursor'] != 0){
 
-						// var list = document.getElementById("nearby-list");
-						// list.innerHTML = "fetching more results (" + results.length + " so far)...";
+						var list = document.getElementById("nearby-list");
+						list.innerHTML = "fetching more results (" + results.length + " so far)...";
 
 						args['cursor'] = rsp['cursor'];
 

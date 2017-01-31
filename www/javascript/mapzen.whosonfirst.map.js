@@ -30,7 +30,7 @@ mapzen.whosonfirst.map = (function(){
 
 			map = L.Mapzen.map('map', opts);
 			map.setView([lat, lon], zoom);
-
+			
 			var geocoder_opts = {
 				'markers': false,
 			};
@@ -68,11 +68,15 @@ mapzen.whosonfirst.map = (function(){
 				
 			});
 
-			if ((mapzen.whosonfirst.iplookup) && (mapzen.whosonfirst.iplookup.enabled())){
+			if ((mapzen.whosonfirst.iplookup) && (mapzen.whosonfirst.iplookup.enabled()) && (! match)){
 				mapzen.whosonfirst.map.iplookup.init(map);
 				mapzen.whosonfirst.map.iplookup.lookup();
 			}
 
+			else {
+			
+			}
+			
 			return map;
 		},
 
