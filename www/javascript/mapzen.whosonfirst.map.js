@@ -31,10 +31,22 @@ mapzen.whosonfirst.map = (function(){
 			map = L.Mapzen.map('map', opts);
 			map.setView([lat, lon], zoom);
 
-			var geocoder = L.Mapzen.geocoder(api_key);
-			geocoder.addTo(map);
+			var geocoder_opts = {
+				'markers': false,
+			};
 			
-			var locator = L.Mapzen.locator();
+			var geocoder = L.Mapzen.geocoder(api_key, geocoder_opts);
+			geocoder.addTo(map);
+
+			// why doesn't this work... (20170131/thisisaaronland)
+			
+			var locator_options = {
+				'locateOptions': {
+					'maxZoom': 16
+				}
+			};
+			
+			var locator = L.Mapzen.locator(locator_options);
 			locator.setPosition('bottomright');
 			locator.addTo(map);
 
