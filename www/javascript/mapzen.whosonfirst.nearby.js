@@ -191,7 +191,7 @@ mapzen.whosonfirst.nearby = (function(){
 					div.setAttribute("class", "nearby-venue");
 					
 					var a = document.createElement("a");
-					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/ " + wofid);
+					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/" + wofid);
 					a.appendChild(document.createTextNode(name));
 				
 					div.appendChild(a);
