@@ -53,13 +53,13 @@ mapzen.whosonfirst.map = (function(){
 				var controls = els[0];
 				controls.style.display = "inline";
 				
-				slippymap.crosshairs.init(map);
+				mapzen.whosonfirst.map.crosshairs.init(map);
 				
 			});
 
 			if ((mapzen.whosonfirst.iplookup) && (mapzen.whosonfirst.iplookup.enabled())){
-				// mapzen.whosonfirst.map.iplookup.init(map);
-				// mapzen.whosonfirst.map.iplookup.lookup();
+				mapzen.whosonfirst.map.iplookup.init(map);
+				mapzen.whosonfirst.map.iplookup.lookup();
 			}
 
 			return map;

@@ -6,6 +6,8 @@ mapzen.whosonfirst.config = (function(){
 	var self = {
 			
 		'init': function(){
+
+			mapzen.whosonfirst.iplookup.enabled(true);
 			mapzen.whosonfirst.api.set_key("mapzen-xxxxxxx");
 		},
 	};		

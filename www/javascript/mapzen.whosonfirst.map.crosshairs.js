@@ -1,6 +1,8 @@
-var slippymap = slippymap || {};
+var mapzen = mapzen || {};
+mapzen.whosonfirst = mapzen.whosonfirst || {};
+mapzen.whosonfirst.map = mapzen.whosonfirst.map || {};
 
-slippymap.crosshairs = (function(){
+mapzen.whosonfirst.map.crosshairs = (function(){
 
     var latlon = true;
 
