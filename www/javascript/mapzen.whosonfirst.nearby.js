@@ -14,7 +14,13 @@ mapzen.whosonfirst.nearby = (function(){
 			var map = mapzen.whosonfirst.map.init();
 			map.on("dragend", self.fetch);
 			map.on("zoom", self.fetch);			
+			
+			var e = document.getElementById("nearby-list-expand");
+			var c = document.getElementById("nearby-list-collapse");
 
+			e.onclick = self.expand_tags;
+			c.onclick = self.collapse_tags;
+			
 			self.fetch();
 		},
 
@@ -81,6 +87,12 @@ mapzen.whosonfirst.nearby = (function(){
 
 			query();
 
+			var e = document.getElementById("nearby-list-expand");
+			var c = document.getElementById("nearby-list-collapse");
+
+			e.style.display = "none";
+			c.style.display = "none";			
+			
 			if (layer){
 				layer.remove(map);
 			}
@@ -280,6 +292,10 @@ mapzen.whosonfirst.nearby = (function(){
 			}
 			
 			list.appendChild(ul);
+
+			var e = document.getElementById("nearby-list-expand");
+			e.style.display = "block";
+			
 		},
 		
 		'draw': function(rsp) {
@@ -362,21 +378,34 @@ mapzen.whosonfirst.nearby = (function(){
 		},
 
 		'expand_tags' : function(){
-
 			self.toggle_tags("block");
+
+			var e = document.getElementById("nearby-list-expand");
+			var c = document.getElementById("nearby-list-collapse");
+
+			e.style.display = "none";
+			c.style.display = "block";			
 		},
 
 		'collapse_tags' : function(){
 
 			self.toggle_tags("");
+
+			var e = document.getElementById("nearby-list-expand");
+			var c = document.getElementById("nearby-list-collapse");
+			
+			e.style.display = "block";
+			c.style.display = "none";			
+			
 		},
 
 		'toggle_tags': function(display){
 
 			var tags = document.getElementsByClassName("nearby-list-venues");
-
-			for (var i in tags){
-				var list = tags[i];
+			var count = tags.length;
+			
+			for (var i=0; i < count; i++){
+				var list = tags[ i ];
 				list.style.display = display;
 			}
 		}

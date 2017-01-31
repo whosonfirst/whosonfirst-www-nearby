@@ -8,10 +8,19 @@ body {
     float:right;
 }
 
+#nearby-list-buttons {
+    padding-top: 1em;
+    padding-left: 2.5em;    
+    margin-bottom: .5em;
+}
+
+#nearby-list-buttons button {
+    display:none;
+}
+
 #nearby-list {
     padding: 2.5em;
-    padding-top: 1em;
-    border: solid thin;
+    padding-top: .5em;
     height:700px !important;
     max-height:700px !important;
     overflow: scroll;
