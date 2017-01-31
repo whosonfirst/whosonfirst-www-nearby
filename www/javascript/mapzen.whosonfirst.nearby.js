@@ -53,6 +53,10 @@ mapzen.whosonfirst.nearby = (function(){
 			var query = function(){
 				
 				var on_error = function(rsp){
+
+					var list = document.getElementById("nearby-list");
+					list.innerHTML = "There was a problem calling the Who's On First API. Errors have been sent to console.log because it's early days still and we can't have nice things...";
+					
 					console.log(rsp);
 				};
 			
@@ -64,7 +68,13 @@ mapzen.whosonfirst.nearby = (function(){
 					}
 					
 					var count_results = rsp['results'].length;
-				
+
+					if (count_results == 0){
+						var list = document.getElementById("nearby-list");
+						list.innerHTML = "Huh, there's nothing around here. Try panning the map around or looking in a differnt place?";
+						return;
+					}
+					
 					for (var i = 0; i < count_results; i++){
 						results.push(rsp['results'][i]);
 					}
