@@ -3,6 +3,7 @@ mapzen.whosonfirst = mapzen.whosonfirst || {};
 
 mapzen.whosonfirst.map = (function(){
 
+	var api_key = "mapzen-xxxxxxx";
 	var map;
 	
 	var self = {
@@ -30,10 +31,8 @@ mapzen.whosonfirst.map = (function(){
 			map = L.Mapzen.map('map', opts);
 			map.setView([lat, lon], zoom);
 
-			if (0){
-				var geocoder = L.Mapzen.geocoder('mapzen-xxxxxxx');
-				geocoder.addTo(map);
-			}
+			var geocoder = L.Mapzen.geocoder(api_key);
+			geocoder.addTo(map);
 			
 			var locator = L.Mapzen.locator();
 			locator.setPosition('bottomright');
@@ -67,7 +66,12 @@ mapzen.whosonfirst.map = (function(){
 
 		'map_object': function() {
 			return map;
-		}
+		},
+
+		'set_key': function(key) {
+			api_key = key;
+		},
+		
 	};		
 
 	return self;

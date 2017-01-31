@@ -8,6 +8,11 @@ mapzen.whosonfirst.config = (function(){
 		'init': function(){
 
 			mapzen.whosonfirst.iplookup.enabled(true);
+
+			// why do you have to do this twice? because we can't
+			// have nice things... yet (20170131/thisisaaronland)
+
+			mapzen.whosonfirst.map.set_key("mapzen-xxxxxxx");			
 			mapzen.whosonfirst.api.set_key("mapzen-xxxxxxx");
 		},
 	};		

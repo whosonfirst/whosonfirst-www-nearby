@@ -13,10 +13,12 @@ mapzen.whosonfirst.nearby = (function(){
 			var map = mapzen.whosonfirst.map.init();
 			map.on("dragend", self.fetch);
 			map.on("zoom", self.fetch);			
-			
+
+			var s = document.getElementById("nearby-list-show");
 			var e = document.getElementById("nearby-list-expand");
 			var c = document.getElementById("nearby-list-collapse");
 
+			s.onclick = self.show_all;
 			e.onclick = self.expand_tags;
 			c.onclick = self.collapse_tags;
 			
@@ -121,17 +123,17 @@ mapzen.whosonfirst.nearby = (function(){
 
 				var props = results[i];
 				var tags = props["wof:tags"];
-
 				var count_tags = tags.length;
-
+				
 				if (count_tags == 0){
-					tags = [ "misc" ];
+					tags = [ "uncategorized" ];
+					count_tags = tags.length;					
 				}
 				
 				for (var j=0; j < count_tags; j++){
 
 					var tag = tags[j].toString();
-
+					
 					// because the test for the tag "watch" will evaluate to  true
 					// since by_tag has a built-in "watch" function associated with
 					// it... (20170129/thisisaaronland)
@@ -204,6 +206,7 @@ mapzen.whosonfirst.nearby = (function(){
 					a.appendChild(document.createTextNode(name));
 
 					a.onmouseover = function(e){
+						
 						var el = e.target;
 						var lat = el.getAttribute("data-latitude");
 						var lon = el.getAttribute("data-longitude");
@@ -317,7 +320,7 @@ mapzen.whosonfirst.nearby = (function(){
 			list.appendChild(ul);
 
 			var e = document.getElementById("nearby-list-expand");
-			e.style.display = "block";
+			e.style.display = "inline";
 			
 		},
 		
@@ -345,7 +348,15 @@ mapzen.whosonfirst.nearby = (function(){
 				// causes mapzen.js to issue a "callback is undefined"
 				// error (20170217/thisisaaronland)				
 				// props["lflt:label_text"] = props["wof:name"];
-				
+
+
+				var tags = props["wof:tags"];
+				var tags_count = tags.length;
+
+				if (tags_count == 0){
+					props["wof:tags"] = [ "uncategorized" ];
+				}
+			
 				var feature = {
 					"type": "Feature",
 					"geometry": geom,
@@ -362,16 +373,63 @@ mapzen.whosonfirst.nearby = (function(){
 
 			var map = mapzen.whosonfirst.map.map_object();
 
-			var style = mapzen.whosonfirst.leaflet.styles.geom_centroid();
-			var handler = mapzen.whosonfirst.leaflet.handlers.point(style);
+			var geom_style = mapzen.whosonfirst.leaflet.styles.geom_centroid();
+			var math_style = mapzen.whosonfirst.leaflet.styles.math_centroid();
+			
+			var handler = mapzen.whosonfirst.leaflet.handlers.point(geom_style);
 
 			if (layer){
 				layer.remove(map);
 			}
 			
 			var args = {
-				'style': style,
+				'style': geom_style,
 				'pointToLayer': handler,
+
+				onEachFeature: function(feature, layer){
+					
+					layer.on("mouseover", function(e){
+
+						var props = feature["properties"];
+
+						var tag_els = document.getElementsByClassName("nearby-tag");
+						var tag_els_count = tag_els.length;
+
+						for (var i=0; i < tag_els_count; i++){
+							var tag_el = tag_els[i];
+							tag_el.style.display = "none";
+						}
+						
+						var tags = props["wof:tags"];
+						var count_tags = tags.length;
+
+						self.collapse_tags();
+
+						for (var i=0; i < count_tags; i++){
+
+							var tag = tags[i];
+
+							var tag_id = "nearby-tag-" + tag;							
+							var list_id = "nearby-list-" + tag;
+
+							var list = document.getElementById(list_id);
+							list.style.display = "block";
+
+							var tag_el = document.getElementById(tag_id);
+							tag_el.style.display = "block";
+						}
+
+						var s = document.getElementById("nearby-list-show");						
+						s.style.display = "inline";
+
+						// please make me work...
+						// layer.options = math_style;
+					});
+					layer.on("mouseout",function(e){
+						// please make me work...						
+						// layer.options = geom_style;
+					});
+				}
 			};
 
 			layer = L.geoJson(collection, args);
@@ -400,14 +458,29 @@ mapzen.whosonfirst.nearby = (function(){
 			console.log(b.getAttribute("id"));
 		},
 
+		'show_all': function(){
+
+			var tag_els = document.getElementsByClassName("nearby-tag");
+			var tag_els_count = tag_els.length;
+			
+			for (var i=0; i < tag_els_count; i++){
+				var tag_el = tag_els[i];
+				tag_el.style.display = "block";
+			}
+
+			var s = document.getElementById("nearby-list-show");						
+			s.style.display = "none";
+		},
+		
 		'expand_tags' : function(){
+			
 			self.toggle_tags("block");
 
 			var e = document.getElementById("nearby-list-expand");
 			var c = document.getElementById("nearby-list-collapse");
 
 			e.style.display = "none";
-			c.style.display = "block";			
+			c.style.display = "inline";			
 		},
 
 		'collapse_tags' : function(){
@@ -417,7 +490,7 @@ mapzen.whosonfirst.nearby = (function(){
 			var e = document.getElementById("nearby-list-expand");
 			var c = document.getElementById("nearby-list-collapse");
 			
-			e.style.display = "block";
+			e.style.display = "inline";
 			c.style.display = "none";			
 			
 		},
