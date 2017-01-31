@@ -1,1 +1,29 @@
+@media (max-width: 400px) {
 
+    #map-wrapper {
+	width:100% !important;
+	float: none !important;
+	font-size:10px;
+	padding-bottom:0px;
+	margin-bottom:0px;
+    }
+
+    #map {
+	height: 200px !important;
+	max-height: 200px !important;	
+    }
+    
+    #nearby-list {
+	height: 300px !important;
+	max-height: 300px !important;
+	padding: 1.5em;
+	padding-top: .25em;	
+    }
+
+    #nearby-list-buttons {
+	padding-top: .5em;
+	padding-left: 1.5em;    
+	margin-bottom: .25em;
+    }
+
+}

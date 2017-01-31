@@ -3,8 +3,7 @@ mapzen.whosonfirst = mapzen.whosonfirst || {};
 
 mapzen.whosonfirst.nearby = (function(){
 
-	var drawn = {};
-
+	var nofetch = false;
 	var layer;
 	
 	var self = {
@@ -26,6 +25,12 @@ mapzen.whosonfirst.nearby = (function(){
 
 		'fetch': function(){
 
+			// console.log("fetch: " + nofetch);
+			
+			if (nofetch){
+				return true;
+			}
+			
 			var map = mapzen.whosonfirst.map.map_object();
 			var pt = map.getCenter();
 
@@ -165,6 +170,8 @@ mapzen.whosonfirst.nearby = (function(){
 					
 					var wofid = props["wof:id"];					
 					var name = props["wof:name"];
+					var lat = props["geom:latitude"];
+					var lon = props["geom:longitude"]
 					var house = props["addr:housenumber"];
 					var street = props["addr:street"];
 					var phone = props["addr:phone"];
@@ -192,8 +199,24 @@ mapzen.whosonfirst.nearby = (function(){
 					
 					var a = document.createElement("a");
 					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/" + wofid);
+					a.setAttribute("data-latitude", lat);
+					a.setAttribute("data-longitude", lon);					
 					a.appendChild(document.createTextNode(name));
-				
+
+					a.onmouseover = function(e){
+						var el = e.target;
+						var lat = el.getAttribute("data-latitude");
+						var lon = el.getAttribute("data-longitude");
+
+						var map = mapzen.whosonfirst.map.map_object();
+						var pt = L.latLng(lat, lon);
+						var zoom = 16;
+
+						nofetch = true;
+						map.setView(pt, zoom);
+						nofetch = false;						
+					};
+					
 					div.appendChild(a);
 
 					if ((addr.length > 0) || (phone != "")){

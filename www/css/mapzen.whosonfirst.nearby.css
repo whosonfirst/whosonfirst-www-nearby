@@ -98,3 +98,7 @@ body {
 .nearby-buttons li:last-child {
     padding-right: 0px;
 }
+
+#ip-lookups {
+    display:none;
+}
