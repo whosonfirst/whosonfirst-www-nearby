@@ -212,6 +212,7 @@ mapzen.whosonfirst.nearby = (function(){
 					
 					var a = document.createElement("a");
 					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/" + wofid);
+					a.setAttribute("id", "wof-" + wofid);	// semantically wrong
 					a.setAttribute("data-latitude", lat);
 					a.setAttribute("data-longitude", lon);					
 					a.appendChild(document.createTextNode(name));
@@ -228,7 +229,7 @@ mapzen.whosonfirst.nearby = (function(){
 
 						nofetch = true;
 						map.setView(pt, zoom);
-						nofetch = false;						
+						nofetch = false;		
 					};
 					
 					div.appendChild(a);
@@ -402,7 +403,8 @@ mapzen.whosonfirst.nearby = (function(){
 					layer.on("mouseover", function(e){
 
 						var props = feature["properties"];
-
+						var wofid = props["wof:id"];
+						
 						var tag_els = document.getElementsByClassName("nearby-tag");
 						var tag_els_count = tag_els.length;
 
@@ -430,6 +432,8 @@ mapzen.whosonfirst.nearby = (function(){
 							tag_el.style.display = "block";
 						}
 
+						location.hash = "wof-" + wofid;
+						
 						var s = document.getElementById("nearby-list-show");						
 						s.style.display = "inline";
 
