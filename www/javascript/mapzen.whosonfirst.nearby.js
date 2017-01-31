@@ -426,8 +426,11 @@ mapzen.whosonfirst.nearby = (function(){
 							var list_id = "nearby-list-" + tag;
 
 							var list = document.getElementById(list_id);
-							list.style.display = "block";
 
+							if (list){	// why do I need to do this?
+								list.style.display = "block";
+							}
+							
 							var tag_el = document.getElementById(tag_id);
 							tag_el.style.display = "block";
 						}
