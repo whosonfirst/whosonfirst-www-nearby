@@ -359,8 +359,27 @@ mapzen.whosonfirst.nearby = (function(){
 		'button_onclick': function(e){
 			var b = e.target;
 			console.log(b.getAttribute("id"));
+		},
+
+		'expand_tags' : function(){
+
+			self.toggle_tags("block");
+		},
+
+		'collapse_tags' : function(){
+
+			self.toggle_tags("");
+		},
+
+		'toggle_tags': function(display){
+
+			var tags = document.getElementsByClassName("nearby-list-venues");
+
+			for (var i in tags){
+				var list = tags[i];
+				list.style.display = display;
+			}
 		}
-		
 	};		
 
 	return self;
