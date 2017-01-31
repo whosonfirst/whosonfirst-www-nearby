@@ -210,7 +210,7 @@ mapzen.whosonfirst.nearby = (function(){
 
 						var map = mapzen.whosonfirst.map.map_object();
 						var pt = L.latLng(lat, lon);
-						var zoom = 16;
+						var zoom = 17;
 
 						nofetch = true;
 						map.setView(pt, zoom);
