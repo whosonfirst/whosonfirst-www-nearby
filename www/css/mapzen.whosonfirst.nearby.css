@@ -65,6 +65,12 @@ body {
     padding-left:1.5em;    
 }
 
+.nearby-venue:hover {
+    font-weight: 700;
+    font-size: 1.3em;
+    background-color: #ccc;
+}
+
 .nearby-venue-current {
     background-color:grey;
 }
