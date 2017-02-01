@@ -12,6 +12,7 @@ whosonfirstjs:
 	curl -s -o www/javascript/mapzen.whosonfirst.uri.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst/master/src/mapzen.whosonfirst.uri.js
 
 mapzenjs:
+	curl -s -o www/javascript/mapzen.js https://mapzen.com/js/mapzen.js
 	curl -s -o www/javascript/mapzen.min.js https://mapzen.com/js/mapzen.min.js
 	curl -s -o www/css/mapzen.js.css	https://mapzen.com/js/mapzen.css
 
