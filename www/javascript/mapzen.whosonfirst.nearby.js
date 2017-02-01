@@ -41,9 +41,10 @@ mapzen.whosonfirst.nearby = (function(){
 			var args = {
 				"latitude": pt.lat,
 				"longitude": pt.lng,
+				"radius": 75,
 				"placetype": "venue",
 				"extras": "geom:latitude,geom:longitude,wof:tags,addr:housenumber,addr:street,addr:phone,mz:is_current",
-				"per_page": 200,
+				"per_page": 500,
 			};
 
 			var results = [];
