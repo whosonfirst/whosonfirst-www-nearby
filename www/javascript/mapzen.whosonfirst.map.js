@@ -4,6 +4,8 @@ mapzen.whosonfirst = mapzen.whosonfirst || {};
 mapzen.whosonfirst.map = (function(){
 
 	var api_key = "mapzen-xxxxxxx";
+	var ready = false;
+	
 	var map;
 	
 	var self = {
@@ -64,10 +66,7 @@ mapzen.whosonfirst.map = (function(){
 			locator.addTo(map);
 
 			map.on('load', function(e){
-
-				L.Mapzen.hash({
-					map: map
-				});
+				ready = true;
 			});
 			
 			map.on('tangramloaded', function(e){			
@@ -87,9 +86,24 @@ mapzen.whosonfirst.map = (function(){
 			var hash_coords = ((uri_match) || (query_match)) ? true : false;
 			
 			if ((mapzen.whosonfirst.iplookup) && (mapzen.whosonfirst.iplookup.enabled()) && (! hash_coords)){
+
+				var ip = undefined;
+				
+				var on_success = function(){
+					L.Mapzen.hash({
+						map: map
+					});
+				};
+				
 				mapzen.whosonfirst.map.iplookup.init(map);
-				mapzen.whosonfirst.map.iplookup.lookup();
+				mapzen.whosonfirst.map.iplookup.lookup(ip, on_success);
+				
 			} else {
+
+				L.Mapzen.hash({
+					map: map
+				});
+				
 				map.setView([lat, lon], zoom);
 			}
 			
@@ -103,7 +117,10 @@ mapzen.whosonfirst.map = (function(){
 		'set_key': function(key) {
 			api_key = key;
 		},
-		
+
+		'ready': function(){
+			return ready;
+		}
 	};		
 
 	return self;

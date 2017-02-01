@@ -50,7 +50,7 @@ mapzen.whosonfirst.map.iplookup = (function(){
 			
 		},
 		
-		'lookup': function(ip){
+		'lookup': function(ip, on_success){
 			
 			var jar = mapzen.whosonfirst.cookies.cookiejar();
 			
@@ -94,6 +94,10 @@ mapzen.whosonfirst.map.iplookup = (function(){
 				
 				if (! parseInt(jar[ cookie_iplookup_skip ])){
 					self.notice(rsp);
+				}
+
+				if (on_success){
+					on_success();
 				}
 			};
 			

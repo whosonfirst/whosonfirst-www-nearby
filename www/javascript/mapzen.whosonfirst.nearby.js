@@ -32,10 +32,15 @@ mapzen.whosonfirst.nearby = (function(){
 			if (nofetch){
 				return true;
 			}
+
+			if (! mapzen.whosonfirst.map.ready()){
+				return true;
+			}
 			
 			var map = mapzen.whosonfirst.map.map_object();
-			var pt = map.getCenter();
 
+			var pt = map.getCenter();
+			
 			var method = "whosonfirst.places.getNearby";
 			
 			var args = {
