@@ -11,8 +11,8 @@ mapzen.whosonfirst.nearby = (function(){
 		'init': function(){
 
 			var map = mapzen.whosonfirst.map.init();
-			map.on("dragend", self.fetch);
-			map.on("zoom", self.fetch);			
+			map.on("moveend", self.fetch);
+			map.on("zoomend", self.fetch);			
 
 			var s = document.getElementById("nearby-list-show");
 			var e = document.getElementById("nearby-list-expand");

@@ -15,10 +15,9 @@ mapzen.whosonfirst.map = (function(){
 			var zoom = 12;
 
 			var hash = location.hash;
-			console.log(hash);
 			
 			var uri_match = hash.match(/^\#\d+\/(-?\d+(?:\.\d+))?\/(-?\d+(?:\.\d+))?/);
-			var query_match = hash.match(/^\#lat=(-?\d+(?:\.\d+))?\&lng=(-?\d+(?:\.\d+))?/);	// ggrrnnngnngnggghhh
+			var query_match = hash.match(/^\#lat=(-?\d+(?:\.\d+))?\&lng=(-?\d+(?:\.\d+))?\&z=(\d+)/);	// ggrrnnngnngnggghhh
 
 			if (uri_match){
 				lat = uri_match[1];
@@ -28,6 +27,7 @@ mapzen.whosonfirst.map = (function(){
 			else if (query_match){
 				lat = query_match[1];
 				lon = query_match[2];
+				zoom = query_match[3];
 			}
 
 			else {}

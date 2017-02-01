@@ -74,9 +74,12 @@ mapzen.whosonfirst.map.iplookup = (function(){
 					// this is a hack to account for the fact that mapzen.js triggers a too
 					// much recursion error calling L.LatLngBounds.prototype.extend when we
 					// try to fitBounds... (20170127/thisisaaronland)
+
+					// console.log("FIT BOUNDS BBOX");
+					// console.log(sw, ne);
+					// map.fitBounds(sw, ne);
 					
 					map.setView(sw, 10);
-					// map.fitBounds(sw, ne);
 				}
 				
 				else {
@@ -113,9 +116,12 @@ mapzen.whosonfirst.map.iplookup = (function(){
 				// this is a hack to account for the fact that mapzen.js triggers a too
 				// much recursion error calling L.LatLngBounds.prototype.extend when we
 				// try to fitBounds... (20170127/thisisaaronland)
+
+				// console.log("FIT BOUNDS");
+				// console.log(sw, ne);
+				// map.fitBounds(sw, ne);
 				
 				map.setView(sw, 12);
-				// map.fitBounds(sw, ne);
 			};
 			
 			var on_notfetch = function(rsp){
