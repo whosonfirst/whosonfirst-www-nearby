@@ -11,8 +11,16 @@ mapzen.whosonfirst.nearby = (function(){
 		'init': function(){
 
 			var map = mapzen.whosonfirst.map.init();
-			map.on("dragend", self.fetch);
-			map.on("zoom", self.fetch);			
+
+			map.on("dragend", function(){
+				// console.log("fetch on drag end");
+				self.fetch();
+			});
+			
+			map.on("zoomend", function(){
+				// console.log("fetch on zoom end");
+				self.fetch();
+			});
 
 			var s = document.getElementById("nearby-list-show");
 			var e = document.getElementById("nearby-list-expand");
@@ -27,16 +35,10 @@ mapzen.whosonfirst.nearby = (function(){
 
 		'fetch': function(){
 
-			// console.log("fetch: " + nofetch);
-			
 			if (nofetch){
 				return true;
 			}
 
-			if (! mapzen.whosonfirst.map.ready()){
-				return true;
-			}
-			
 			var map = mapzen.whosonfirst.map.map_object();
 
 			var pt = map.getCenter();

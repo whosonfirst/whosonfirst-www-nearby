@@ -71,15 +71,7 @@ mapzen.whosonfirst.map.iplookup = (function(){
 					var sw = [ bbox[1], bbox[0] ];
 					var ne = [ bbox[3], bbox[2] ];
 
-					// this is a hack to account for the fact that mapzen.js triggers a too
-					// much recursion error calling L.LatLngBounds.prototype.extend when we
-					// try to fitBounds... (20170127/thisisaaronland)
-
-					// console.log("FIT BOUNDS BBOX");
-					// console.log(sw, ne);
-					// map.fitBounds(sw, ne);
-					
-					map.setView(sw, 10);
+					map.fitBounds([sw, ne]);
 				}
 				
 				else {
@@ -117,15 +109,7 @@ mapzen.whosonfirst.map.iplookup = (function(){
 				var sw = [ bbox[1], bbox[0] ];
 				var ne = [ bbox[3], bbox[2] ];
 
-				// this is a hack to account for the fact that mapzen.js triggers a too
-				// much recursion error calling L.LatLngBounds.prototype.extend when we
-				// try to fitBounds... (20170127/thisisaaronland)
-
-				// console.log("FIT BOUNDS");
-				// console.log(sw, ne);
-				// map.fitBounds(sw, ne);
-				
-				map.setView(sw, 12);
+				map.fitBounds([sw, ne]);
 			};
 			
 			var on_notfetch = function(rsp){
@@ -148,127 +132,127 @@ mapzen.whosonfirst.map.iplookup = (function(){
 			var close_modal = function(){
 				
 				var skip = document.getElementById("iplookup-modal-skip");
-			var disable = document.getElementById("iplookup-modal-disable");					
+				var disable = document.getElementById("iplookup-modal-disable");					
 			
-			if ((skip) && (skip.checked)){
-				mapzen.whosonfirst.cookies.set_cookie(cookie_iplookup_skip, 1);
+				if ((skip) && (skip.checked)){
+					mapzen.whosonfirst.cookies.set_cookie(cookie_iplookup_skip, 1);
+				}
+				
+				if ((disable) && (disable.checked)){
+					self.disable();
+				}
+				
+				var modal = document.getElementById("iplookup-modal");
+				var parent = modal.parentElement;
+				parent.removeChild(modal);
+				
+			};
+			
+			var on_close = function(){
+				close_modal();
+			};
+			
+			var modal = document.createElement("div");
+			modal.setAttribute("id", "iplookup-modal");
+			
+			var text = document.createElement("div");
+			text.setAttribute("id", "iplookup-modal-text");
+			
+			var head = document.createElement("h4");
+			head.appendChild(document.createTextNode("We have been \"helpful\" and auto-positioned the map for you..."));
+			
+			var intro = document.createElement("div");
+			
+			var where = "";
+			
+			if ((rsp) && (rsp['name'])){
+				
+				var enc_name = mapzen.whosonfirst.php.htmlspecialchars(rsp['name']);
+				where = "They seem to think you are somewhere near or around " + enc_name + ".";
 			}
 			
-			if ((disable) && (disable.checked)){
-				self.disable();
-			}
+			var p1_sentences = [
+				"Using your computer's IP address we've asked the computer-robots-in-the-sky where in the world they think you might be right now.",
+				where, 
+				"We've used this information to auto-position the map accordingly.",
+				"Sometimes the mappings from IP address to location are weird. Sometimes they are just wrong.",
+				"Sometimes computers being \"helpful\" like this is weird and creepy so we've added a setting to allow you to disable this feature in the future.",
+				"IP lookups are a complicated business and we have written a blog post about them if you'd like to know more."
+			];
 			
-			var modal = document.getElementById("iplookup-modal");
-			var parent = modal.parentElement;
-			parent.removeChild(modal);
+			var p1_text = p1_sentences.join(" ");
 			
-		};
-		
-		var on_close = function(){
-			close_modal();
-		};
-		
-		var modal = document.createElement("div");
-		modal.setAttribute("id", "iplookup-modal");
-		
-		var text = document.createElement("div");
-		text.setAttribute("id", "iplookup-modal-text");
-		
-		var head = document.createElement("h4");
-		head.appendChild(document.createTextNode("We have been \"helpful\" and auto-positioned the map for you..."));
-		
-		var intro = document.createElement("div");
-		
-		var where = "";
-		
-		if ((rsp) && (rsp['name'])){
+			var p1 = document.createElement("p");
+			p1.appendChild(document.createTextNode(p1_text));
 			
-			var enc_name = mapzen.whosonfirst.php.htmlspecialchars(rsp['name']);
-			where = "They seem to think you are somewhere near or around " + enc_name + ".";
-		}
+			var href = "https://mapzen.com/blog/missing-the-point/";
+			
+			var link = document.createElement("a");
+			link.setAttribute("href", href);
+			link.setAttribute("target", "blog");
+			link.appendChild(document.createTextNode(href));
+			
+			var p2 = document.createElement("p");
+			p2.setAttribute("class", "iplookup-modal-blog");
+			p2.appendChild(link);
+			
+			var skip = document.createElement("input");
+			skip.setAttribute("type", "checkbox");
+			skip.setAttribute("id", "iplookup-modal-skip");
+			skip.setAttribute("name", "iplookup-modal-skip");
+			
+			var skip_label = document.createElement("label");
+			skip_label.setAttribute("for", "iplookup-modal-skip");
+			skip_label.appendChild(document.createTextNode("Do not show this notice again."));
+			
+			var p3 = document.createElement("p");
+			p3.appendChild(skip);
+			p3.appendChild(skip_label);				
+			
+			var disable = document.createElement("input");
+			disable.setAttribute("type", "checkbox");
+			disable.setAttribute("id", "iplookup-modal-disable");
+			disable.setAttribute("name", "iplookup-modal-disable");
+			
+			var disable_label = document.createElement("label");
+			disable_label.setAttribute("for", "iplookup-modal-disable");
+			disable_label.appendChild(document.createTextNode("Please disable IP lookups altogether"));
+			
+			var p4 = document.createElement("p");
+			p4.appendChild(disable);
+			p4.appendChild(disable_label);				
+			
+			intro.appendChild(p1);
+			intro.appendChild(p2);
+			intro.appendChild(p4);
+			intro.appendChild(p3);
+			
+			text.appendChild(head);
+			text.appendChild(intro);
+			
+			var controls = document.createElement("div");
+			controls.setAttribute("id", "iplookup-modal-controls");
+			
+			var close_button = document.createElement("button");
+			close_button.setAttribute("id", "iplookup-modal-close-button");
+			close_button.appendChild(document.createTextNode("close"));
+			
+			close_button.onclick = on_close;
+			
+			controls.appendChild(close_button);				
+			
+			modal.appendChild(text);
+			modal.appendChild(controls);
+			
+			var body = document.body;
+			body.insertBefore(modal, body.firstChild);
+			
+			return false;
+			
+		},
 		
-		var p1_sentences = [
-			"Using your computer's IP address we've asked the computer-robots-in-the-sky where in the world they think you might be right now.",
-			where, 
-			"We've used this information to auto-position the map accordingly.",
-			"Sometimes the mappings from IP address to location are weird. Sometimes they are just wrong.",
-			"Sometimes computers being \"helpful\" like this is weird and creepy so we've added a setting to allow you to disable this feature in the future.",
-			"IP lookups are a complicated business and we have written a blog post about them if you'd like to know more."
-		];
-		
-		var p1_text = p1_sentences.join(" ");
-		
-		var p1 = document.createElement("p");
-		p1.appendChild(document.createTextNode(p1_text));
-		
-		var href = "https://mapzen.com/blog/missing-the-point/";
-		
-		var link = document.createElement("a");
-		link.setAttribute("href", href);
-		link.setAttribute("target", "blog");
-		link.appendChild(document.createTextNode(href));
-		
-		var p2 = document.createElement("p");
-		p2.setAttribute("class", "iplookup-modal-blog");
-		p2.appendChild(link);
-		
-		var skip = document.createElement("input");
-		skip.setAttribute("type", "checkbox");
-		skip.setAttribute("id", "iplookup-modal-skip");
-		skip.setAttribute("name", "iplookup-modal-skip");
-		
-		var skip_label = document.createElement("label");
-		skip_label.setAttribute("for", "iplookup-modal-skip");
-		skip_label.appendChild(document.createTextNode("Do not show this notice again."));
-		
-		var p3 = document.createElement("p");
-		p3.appendChild(skip);
-		p3.appendChild(skip_label);				
-		
-		var disable = document.createElement("input");
-		disable.setAttribute("type", "checkbox");
-		disable.setAttribute("id", "iplookup-modal-disable");
-		disable.setAttribute("name", "iplookup-modal-disable");
-		
-		var disable_label = document.createElement("label");
-		disable_label.setAttribute("for", "iplookup-modal-disable");
-		disable_label.appendChild(document.createTextNode("Please disable IP lookups altogether"));
-		
-		var p4 = document.createElement("p");
-		p4.appendChild(disable);
-		p4.appendChild(disable_label);				
-		
-		intro.appendChild(p1);
-		intro.appendChild(p2);
-		intro.appendChild(p4);
-		intro.appendChild(p3);
-		
-		text.appendChild(head);
-		text.appendChild(intro);
-		
-		var controls = document.createElement("div");
-		controls.setAttribute("id", "iplookup-modal-controls");
-		
-		var close_button = document.createElement("button");
-		close_button.setAttribute("id", "iplookup-modal-close-button");
-		close_button.appendChild(document.createTextNode("close"));
-		
-		close_button.onclick = on_close;
-		
-		controls.appendChild(close_button);				
-		
-		modal.appendChild(text);
-		modal.appendChild(controls);
-		
-		var body = document.body;
-		body.insertBefore(modal, body.firstChild);
-		
-		return false;
-		
-	},
-	
 	};
-
+	
 	return self;
 	
 })();
