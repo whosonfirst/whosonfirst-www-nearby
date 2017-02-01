@@ -15,21 +15,34 @@ mapzen.whosonfirst.map = (function(){
 			var zoom = 12;
 
 			var hash = location.hash;
-			var match = hash.match(/^\#\d+\/(-?\d+(?:\.\d+))?\/(-?\d+(?:\.\d+))?/)
-						
-			if (match){
-				lat = match[1];
-				lon = match[2];
+			console.log(hash);
+			
+			var uri_match = hash.match(/^\#\d+\/(-?\d+(?:\.\d+))?\/(-?\d+(?:\.\d+))?/);
+			var query_match = hash.match(/^\#lat=(-?\d+(?:\.\d+))?\&lng=(-?\d+(?:\.\d+))?/);	// ggrrnnngnngnggghhh
+
+			if (uri_match){
+				lat = uri_match[1];
+				lon = uri_match[2];
 			}
 
+			else if (query_match){
+				lat = query_match[1];
+				lon = query_match[2];
+			}
+
+			else {}
+			
+			// https://mapzen.com/documentation/mapzen-js/api-reference/#map
+			// https://mapzen.com/documentation/mapzen-js/api-reference/#tangramoptions
+			
 			var opts = {
 				tangramOptions: { 
-					scene: L.Mapzen.BasemapStyles.Refill
+					scene: L.Mapzen.BasemapStyles.Refill,
+					apiKey: api_key
 				}
 			};
 
 			map = L.Mapzen.map('map', opts);
-			map.setView([lat, lon], zoom);
 			
 			var geocoder_opts = {
 				'markers': false,
@@ -50,10 +63,13 @@ mapzen.whosonfirst.map = (function(){
 			locator.setPosition('bottomright');
 			locator.addTo(map);
 
-			L.Mapzen.hash({
-				map: map
-			});
+			map.on('load', function(e){
 
+				L.Mapzen.hash({
+					map: map
+				});
+			});
+			
 			map.on('tangramloaded', function(e){			
 
 				var els = document.getElementsByClassName("leaflet-tile-pane");
@@ -68,13 +84,13 @@ mapzen.whosonfirst.map = (function(){
 				
 			});
 
-			if ((mapzen.whosonfirst.iplookup) && (mapzen.whosonfirst.iplookup.enabled()) && (! match)){
+			var hash_coords = ((uri_match) || (query_match)) ? true : false;
+			
+			if ((mapzen.whosonfirst.iplookup) && (mapzen.whosonfirst.iplookup.enabled()) && (! hash_coords)){
 				mapzen.whosonfirst.map.iplookup.init(map);
 				mapzen.whosonfirst.map.iplookup.lookup();
-			}
-
-			else {
-			
+			} else {
+				map.setView([lat, lon], zoom);
 			}
 			
 			return map;

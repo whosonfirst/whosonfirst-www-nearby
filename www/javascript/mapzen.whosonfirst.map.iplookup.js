@@ -75,7 +75,7 @@ mapzen.whosonfirst.map.iplookup = (function(){
 					// much recursion error calling L.LatLngBounds.prototype.extend when we
 					// try to fitBounds... (20170127/thisisaaronland)
 					
-					map.setView(sw, 12);
+					map.setView(sw, 10);
 					// map.fitBounds(sw, ne);
 				}
 				

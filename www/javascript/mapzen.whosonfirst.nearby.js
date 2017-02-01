@@ -57,8 +57,6 @@ mapzen.whosonfirst.nearby = (function(){
 
 					var list = document.getElementById("nearby-list");
 					list.innerHTML = "There was a problem calling the Who's On First API. Errors have been sent to console.log because it's early days still and we can't have nice things...";
-					
-					console.log(rsp);
 				};
 			
 				var on_success = function(rsp){
@@ -117,7 +115,6 @@ mapzen.whosonfirst.nearby = (function(){
 
 			var list = document.getElementById("nearby-list");
 			list.innerHTML = "fetching results...";
-			
 		},
 
 		'list': function(rsp) {
@@ -211,8 +208,8 @@ mapzen.whosonfirst.nearby = (function(){
 					div.setAttribute("class", "nearby-venue");
 					
 					var a = document.createElement("a");
-					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/" + wofid);
-					a.setAttribute("id", "wof-" + wofid);	// semantically wrong
+					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/" + wofid);	// please make me a config/uri template
+					a.setAttribute("id", "wof-" + wofid);						// semantically wrong but oh well...
 					a.setAttribute("data-latitude", lat);
 					a.setAttribute("data-longitude", lon);					
 					a.appendChild(document.createTextNode(name));
@@ -361,7 +358,6 @@ mapzen.whosonfirst.nearby = (function(){
 				// error (20170217/thisisaaronland)				
 				// props["lflt:label_text"] = props["wof:name"];
 
-
 				var tags = props["wof:tags"];
 				var tags_count = tags.length;
 
@@ -443,6 +439,7 @@ mapzen.whosonfirst.nearby = (function(){
 						// please make me work...
 						// layer.options = math_style;
 					});
+					
 					layer.on("mouseout",function(e){
 						// please make me work...						
 						// layer.options = geom_style;
