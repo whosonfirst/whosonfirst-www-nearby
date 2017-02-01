@@ -11,8 +11,8 @@ mapzen.whosonfirst.nearby = (function(){
 		'init': function(){
 
 			var map = mapzen.whosonfirst.map.init();
-			map.on("moveend", self.fetch);
-			map.on("zoomend", self.fetch);			
+			map.on("dragend", self.fetch);
+			map.on("zoom", self.fetch);			
 
 			var s = document.getElementById("nearby-list-show");
 			var e = document.getElementById("nearby-list-expand");
@@ -381,19 +381,22 @@ mapzen.whosonfirst.nearby = (function(){
 
 			var map = mapzen.whosonfirst.map.map_object();
 
-			var geom_style = mapzen.whosonfirst.leaflet.styles.geom_centroid();
-			var math_style = mapzen.whosonfirst.leaflet.styles.math_centroid();
+			var default_style = mapzen.whosonfirst.leaflet.styles.nearby_centroid();
+			var hover_style = mapzen.whosonfirst.leaflet.styles.nearby_hover_centroid();
 			
-			var handler = mapzen.whosonfirst.leaflet.handlers.point(geom_style);
+			var handler = mapzen.whosonfirst.leaflet.handlers.point(default_style);
 
 			if (layer){
 				layer.remove(map);
 			}
 			
 			var args = {
-				'style': geom_style,
+				'style': default_style,
 				'pointToLayer': handler,
 
+				// 'riseOnHover': true,
+				// 'riseOffset': 1000,
+				
 				onEachFeature: function(feature, layer){
 					
 					layer.on("mouseover", function(e){
@@ -436,13 +439,14 @@ mapzen.whosonfirst.nearby = (function(){
 						var s = document.getElementById("nearby-list-show");						
 						s.style.display = "inline";
 
-						// please make me work...
-						// layer.options = math_style;
+						var marker = e.target;
+						marker.setStyle(hover_style);
 					});
 					
 					layer.on("mouseout",function(e){
-						// please make me work...						
-						// layer.options = geom_style;
+
+						var marker = e.target;
+						marker.setStyle(default_style);
 					});
 				}
 			};
