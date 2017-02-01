@@ -38,10 +38,8 @@ body {
     list-style-type: none;
     padding-left: 0px;
     margin-left: 0px;
-    padding:.5em;
-    padding-left:1.5em;
     display: none;
-    background-color:#ccc;       
+    background-color:none;       
 }
 
 .nearby-list-venues li {
@@ -63,6 +61,8 @@ body {
 }
 
 .nearby-venue {
+    padding:.5em;
+    padding-left:1.5em;    
 }
 
 .nearby-venue-current {
@@ -101,4 +101,10 @@ body {
 
 #ip-lookups {
     display:none;
+}
+
+.hey-look {
+    font-weight: 700;
+    font-size: 1.3em;
+    background-color: #ccc;
 }

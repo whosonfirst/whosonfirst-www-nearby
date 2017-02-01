@@ -205,11 +205,10 @@ mapzen.whosonfirst.nearby = (function(){
 						div.setAttribute("class", "nearby-venue");
 					}
 					
-					div.setAttribute("class", "nearby-venue");
+					div.setAttribute("class", "nearby-venue nearby-venue-" + wofid);					
 					
 					var a = document.createElement("a");
 					a.setAttribute("href", "https://whosonfirst.mapzen.com/spelunker/id/" + wofid);	// please make me a config/uri template
-					a.setAttribute("id", "wof-" + wofid);						// semantically wrong but oh well...
 					a.setAttribute("data-latitude", lat);
 					a.setAttribute("data-longitude", lon);					
 					a.appendChild(document.createTextNode(name));
@@ -434,19 +433,43 @@ mapzen.whosonfirst.nearby = (function(){
 							tag_el.style.display = "block";
 						}
 
-						location.hash = "wof-" + wofid;
-						
 						var s = document.getElementById("nearby-list-show");						
 						s.style.display = "inline";
 
 						var marker = e.target;
 						marker.setStyle(hover_style);
+
+						var possible = document.getElementsByClassName("nearby-venue-" + wofid);
+						var count_possible = possible.length;
+
+						for (var i=0; i < count_possible; i++){
+							var el = possible[i];
+							
+							var classes = el.getAttribute("class");
+							classes += " hey-look";
+
+							el.setAttribute("class", classes);
+						}
 					});
 					
 					layer.on("mouseout",function(e){
 
 						var marker = e.target;
 						marker.setStyle(default_style);
+
+						var props = feature["properties"];
+						var wofid = props["wof:id"];
+						
+						var possible = document.getElementsByClassName("nearby-venue-" + wofid);
+						var count_possible = possible.length;
+
+						for (var i=0; i < count_possible; i++){
+							var el = possible[i];
+							
+							var classes = el.getAttribute("class");
+							classes = classes.replace("hey-look", "");
+							el.setAttribute("class", classes);
+						}
 					});
 				}
 			};
