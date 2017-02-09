@@ -48,11 +48,40 @@ mapzen.whosonfirst.map = (function(){
 			
 			var geocoder_opts = {
 				'markers': false,
+				'params': {
+					'sources': ['wof']
+				},
+				'place': true,
 			};
 			
 			var geocoder = L.Mapzen.geocoder(api_key, geocoder_opts);
 			geocoder.addTo(map);
 
+			// PLEASE MAKE ME CONFIGURABLE... (20170209/thisisaaronland)
+			
+			geocoder.on('results', function(e) {
+
+				// requestType may be 'autocomplete', 'search', or 'place'
+				
+				if (e.requestType === 'place'){
+
+					if (! len(e.results.features)){
+						return;
+					}
+					
+					var first = e.results.features[0];
+					
+					var bbox = first['bbox'];
+					var props = first['properties'];
+					var wofid = props['wofid'];
+					
+					// derive center of bbox (which will be wrong for SF, for example)
+					// actually fetch the WOF record over the wire or call wof.places.getInfo
+					// or ... ? (20170209/thisisaaronland)
+				}
+
+			});
+			
 			// why doesn't this work... (20170131/thisisaaronland)
 			
 			var locator_options = {
