@@ -33,3 +33,6 @@ tangram:
 
 crosshairs:
 	curl -s -o www/javascript/slippymap.crosshairs.js https://raw.githubusercontent.com/whosonfirst/js-slippymap-crosshairs/master/src/slippymap.crosshairs.js
+
+prod-www:
+	utils/darwin/wof-clone-website -ignore \~ -ignore .DS_Store -ignore .gitignore -strict -s3-prefix nearby -source www/

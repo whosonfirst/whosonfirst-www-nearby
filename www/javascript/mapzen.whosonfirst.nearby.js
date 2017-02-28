@@ -13,12 +13,12 @@ mapzen.whosonfirst.nearby = (function(){
 			var map = mapzen.whosonfirst.map.init();
 
 			map.on("dragend", function(){
-				// console.log("fetch on drag end");
+				console.log("fetch on drag end");
 				self.fetch();
 			});
 			
 			map.on("zoomend", function(){
-				// console.log("fetch on zoom end");
+				console.log("fetch on zoom end");
 				self.fetch();
 			});
 
@@ -30,7 +30,7 @@ mapzen.whosonfirst.nearby = (function(){
 			e.onclick = self.expand_tags;
 			c.onclick = self.collapse_tags;
 			
-			self.fetch();
+			// self.fetch();
 		},
 
 		'fetch': function(){
@@ -85,9 +85,9 @@ mapzen.whosonfirst.nearby = (function(){
 					for (var i = 0; i < count_results; i++){
 						results.push(rsp['results'][i]);
 					}
-				
-					if (rsp['cursor'] != 0){
 
+					if ((rsp['cursor']) && (rsp['cursor'] != 0)){
+						
 						var list = document.getElementById("nearby-list");
 						list.innerHTML = "fetching more results (" + results.length + " so far)...";
 
@@ -104,7 +104,8 @@ mapzen.whosonfirst.nearby = (function(){
 					self.draw(rsp);
 					
 				};
-				
+
+				console.log("call " + method + " : " + iters);
 				mapzen.whosonfirst.api.call(method, args, on_success, on_error);
 				iters += 1;
 			};
