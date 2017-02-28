@@ -105,7 +105,6 @@ mapzen.whosonfirst.nearby = (function(){
 					
 				};
 
-				console.log("call " + method + " : " + iters);
 				mapzen.whosonfirst.api.call(method, args, on_success, on_error);
 				iters += 1;
 			};
